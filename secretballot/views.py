@@ -51,7 +51,8 @@ def vote(request, content_type, object_id, vote, can_vote_test=None,
     if redirect_url:
         return HttpResponseRedirect(redirect_url)
     elif template_name:
-        content_obj = content_type.get_object_for_this_type(pk=object_id)
+        # content_obj = content_type.get_object_for_this_type(pk=object_id)
+        content_obj = content_type.model_class().objects.from_request(request).get(pk=object_id)
         c = RequestContext(request, {'content_obj': content_obj}, context_processors)
 
         # copy extra_context into context, calling any callables
